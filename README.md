@@ -8,13 +8,17 @@ https://adventofcode.com/2025
 git clone https://github.com/yourusername/advent-code-2025.git
 cd advent-code-2025
 npm install
-npx tsc
 ```
 
 ## Run solutions
 
 From terminal:
 ```
-node dist/day-one/solution.js
+npm run build
+node dist/day-one/solve-challenge-one.js <sample|input>
 ```
 
+## Progress
+
+[x] Day One, Part One
+[ ] Day One, Part Two
