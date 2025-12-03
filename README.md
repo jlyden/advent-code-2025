@@ -15,10 +15,13 @@ npm install
 From terminal:
 ```
 npm run build
-node dist/day-one/solve-challenge.js <sample|input>
+node dist/day-one/solve-challenge.js <sample|input> <2>
 ```
 
 ## Progress
 
 [x] Day One, Part One
-[ ] Day One, Part Two
+[x] Day One, Part Two
+
+[ ] Day Two, Part One
+[ ] Day Two, Part Two

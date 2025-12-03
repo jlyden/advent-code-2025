@@ -1,36 +1,38 @@
 import { getContents } from "../utils/get-contents";
 
 function solveChallenge() {
-	const inputOption = process.argv[2];
-//	const forPartTwo = process.argv[3] === '2';
-	const inputPath = `src/day-one/${inputOption}.txt`;
-	const rotations = getContents(inputPath);
+	const rotations = getInput(process.argv[2]);
+	const forPartTwo = process.argv[3] === '2';
 
 	let currentLocation = 50;
+	let previousLocation = 50;
 	let countOfZeros = 0;
 
 	rotations.forEach((rotation) => {
 		const direction = rotation.slice(0, 1);
-		const rawDistance = rotation.slice(1);
 
-		if (Number.isNaN(Number(rawDistance)) === true) {
-			throw new Error(`Unexpected distance: ${rawDistance}`)
+		const [ spinDistance, extraRotations ] = parseDistance(rotation);
+		if (forPartTwo && extraRotations > 0) {
+			countOfZeros += extraRotations;
 		}
-
-//		const distanceHundreds = Number(rawDistance.slice(0, -2));
-		const distanceTens = Number(rawDistance.slice(-2));
 
 		switch (direction) {
 			case 'L':
-				currentLocation -= distanceTens;
+				currentLocation -= spinDistance;
 				if (currentLocation < 0) {
 					currentLocation += 100;
+					if (forPartTwo && previousLocation > 0) {
+						countOfZeros++;
+					}
 				}
 				break;
 			case 'R':
-				currentLocation += distanceTens;
-				if (currentLocation >= 100) {
+				currentLocation += spinDistance;
+				if (currentLocation > 100) {
 					currentLocation -= 100;
+					if (forPartTwo && previousLocation < 100) {
+						countOfZeros++;
+					}
 				}
 				break;
 			default:
@@ -38,11 +40,36 @@ function solveChallenge() {
 		}
 
 		if (currentLocation === 0) {
-			countOfZeros += 1;
+			countOfZeros ++;
 		}
+
+		if (currentLocation === 100) {
+			currentLocation -= 100;
+			countOfZeros ++;
+		}
+
+		previousLocation = currentLocation;
 	})
 
-	console.log(`Count of zeros: ${countOfZeros}`);
+	console.log(`Count of zeros at end: ${countOfZeros}`);
+}
+
+function getInput(source: string): string[] {
+	const inputPath = `src/day-one/${source}.txt`;
+	return getContents(inputPath);
+}
+
+function parseDistance(rotation: string): number[] {
+			const rawDistance = rotation.slice(1);
+
+		if (Number.isNaN(Number(rawDistance)) === true) {
+			throw new Error(`Unexpected distance: ${rawDistance}`)
+		}
+
+		const extraRotations = Number(rawDistance.slice(0, -2));
+		const spinDistance = Number(rawDistance.slice(-2));
+
+		return [spinDistance, extraRotations];
 }
 
 solveChallenge();
