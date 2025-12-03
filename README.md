@@ -5,7 +5,7 @@ https://adventofcode.com/2025
 ## Getting Started
 
 ```
-git clone https://github.com/yourusername/advent-code-2025.git
+git clone https://github.com/jlyden/advent-code-2025.git
 cd advent-code-2025
 npm install
 ```
@@ -15,7 +15,7 @@ npm install
 From terminal:
 ```
 npm run build
-node dist/day-one/solve-challenge-one.js <sample|input>
+node dist/day-one/solve-challenge.js <sample|input>
 ```
 
 ## Progress

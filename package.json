@@ -4,7 +4,7 @@
   "description": "Solutions for Advent of Code 2025 challenges.",
   "main": "src/day-one/solution.ts",
   "scripts": {
-    "build": "tsc",
+    "build": "rm -rf dist && tsc",
     "start": "node dist/day-one/solution.js",
     "lint": "eslint 'src/**/*.ts'"
   },
