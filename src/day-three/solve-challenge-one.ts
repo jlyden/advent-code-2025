@@ -1,7 +1,7 @@
 import { getContents, sumANumericArray } from "../utils/get-contents";
 
-// node dist/day-three/solve-challenge.js sample
-function solveChallenge() {
+// node dist/day-three/solve-challenge-one.js <sample|input>
+function solveChallengeOne() {
 	const lines = getInput(process.argv[2]);
 
 	const jolts: number[] = [];
@@ -10,28 +10,21 @@ function solveChallenge() {
 		let firstDigit;
 		let secondDigit;
 
-		console.log(`line: ${line}`);
-
 		const firstDigitResults = findLargestDigit(line, true);
 		firstDigit = firstDigitResults.highest.toString();
-		console.log(`first: ${firstDigit}`);
 
 		const nextIndex = firstDigitResults.index + 1;
 		const restOfString = line.slice(nextIndex);
-		console.log(`restOfString: ${restOfString}`);
 
 		const { highest, } = findLargestDigit(restOfString);
 		secondDigit = highest.toString();
-		console.log(`second: ${secondDigit}`);
 
 		const jolt = Number(firstDigit + secondDigit);
-		console.log(`jolt: ${jolt}`);
 		jolts.push(jolt);
 	})
 
 	const totalJoltage = sumANumericArray(jolts)
 
-	// 17280 too high
 	console.log(`Total joltage: ${totalJoltage}`);
 }
 
@@ -49,8 +42,8 @@ function findLargestDigit(line: string, forFirstDigit: boolean = false): { highe
 		const digit = Number(line[i]);
 		if (digit > highest) {
 			highest = digit;
+			index = i;
 			if (highest === 9) {
-				index = i;
 				break;
 			} 
 		}
@@ -66,4 +59,4 @@ function getInput(source: string): string[] {
 	return getContents(inputPath);
 }
 
-solveChallenge();
+solveChallengeOne();
