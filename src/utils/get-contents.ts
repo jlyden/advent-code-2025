@@ -7,4 +7,8 @@ function getContents(filenameWithPath: string, returnLimit: number | null = null
   return returnLimit ? contents.slice(0, returnLimit) : contents;
 }
 
-export { getContents };
+function sumANumericArray(numbers: number[]) {
+  return numbers.reduce((acc, curr) => acc + curr, 0);
+}
+
+export { getContents, sumANumericArray };
