@@ -1,6 +1,6 @@
-import { getContents } from "../utils/get-contents";
+import { getContents } from "../utils";
 
-// node dist/day-two/solve-challenge.js sample
+// node dist/day-02/solve-challenge.js sample
 function solveChallenge() {
 	const ranges = getInput(process.argv[2]);
 
@@ -62,7 +62,7 @@ function solveChallenge() {
 }
 
 function getInput(source: string): string[] {
-	const inputPath = `src/day-two/${source}.txt`;
+	const inputPath = `src/day-02/${source}.txt`;
 	return getContents(inputPath, null, ',');
 }
 

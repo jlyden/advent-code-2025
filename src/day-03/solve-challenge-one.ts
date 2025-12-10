@@ -1,6 +1,6 @@
-import { getContents, sumANumericArray } from "../utils/get-contents";
+import { getContents, sumNumericArray } from "../utils";
 
-// node dist/day-three/solve-challenge-one.js <sample|input>
+// node dist/day-03/solve-challenge-one.js <sample|input>
 function solveChallengeOne() {
 	const lines = getInput(process.argv[2]);
 
@@ -23,7 +23,7 @@ function solveChallengeOne() {
 		jolts.push(jolt);
 	})
 
-	const totalJoltage = sumANumericArray(jolts)
+	const totalJoltage = sumNumericArray(jolts)
 
 	console.log(`Total joltage: ${totalJoltage}`);
 }
@@ -55,7 +55,7 @@ function findLargestDigit(line: string, forFirstDigit: boolean = false): { highe
 }
 
 function getInput(source: string): string[] {
-	const inputPath = `src/day-three/${source}.txt`;
+	const inputPath = `src/day-03/${source}.txt`;
 	return getContents(inputPath);
 }
 

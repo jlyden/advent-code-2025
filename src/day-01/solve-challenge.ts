@@ -1,4 +1,4 @@
-import { getContents } from "../utils/get-contents";
+import { getContents } from "../utils";
 
 function solveChallenge() {
 	const rotations = getInput(process.argv[2]);
@@ -55,7 +55,7 @@ function solveChallenge() {
 }
 
 function getInput(source: string): string[] {
-	const inputPath = `src/day-one/${source}.txt`;
+	const inputPath = `src/day-01/${source}.txt`;
 	return getContents(inputPath);
 }
 

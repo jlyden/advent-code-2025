@@ -1,6 +1,6 @@
-import { getContents } from "../utils/get-contents";
+import { getContents, sortArray } from "../utils";
 
-// node dist/day-five/solve-challenge.js sample
+// node dist/day-05/solve-challenge.js sample
 function solveChallenge() {
 	const input = getInput(process.argv[2]);
 
@@ -42,7 +42,7 @@ function solveChallenge() {
 }
 
 function getInput(source: string): string[] {
-	const inputPath = `src/day-five/${source}.txt`;
+	const inputPath = `src/day-05/${source}.txt`;
 	return getContents(inputPath);
 }
 
@@ -91,10 +91,5 @@ function getIngredientIds(input: string[], blankLineIndex: number): number[] {
 
 	return sortArray(ingredientIdsUnsorted);
 }
-
-function sortArray(numberArray: number[]): number[] {
-	return numberArray.sort((a, b) => a - b);
-}
-
 
 solveChallenge();

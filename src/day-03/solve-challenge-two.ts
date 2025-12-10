@@ -1,9 +1,9 @@
-import { getContents, sumANumericArray } from "../utils/get-contents";
+import { getContents, sumNumericArray } from "../utils";
 
 type ValuesToIndexes = { [key:string] : number[] };
 const DIGITS = ['9', '8', '7', '6', '5', '4', '3', '2', '1'];
 
-// node dist/day-three/solve-challenge-two.js <sample|input> <batteryCount>
+// node dist/day-03/solve-challenge-two.js <sample|input> <batteryCount>
 function solveChallengeTwo() {
 	const lines = getInput(process.argv[2]);
 	const batteryCount = Number(process.argv[3]) ?? 2;
@@ -64,13 +64,13 @@ function solveChallengeTwo() {
 		jolts.push(jolt);
 	})
 
-	const totalJoltage = sumANumericArray(jolts)
+	const totalJoltage = sumNumericArray(jolts)
 
 	console.log(`Total joltage: ${totalJoltage}`);
 }
 
 function getInput(source: string): string[] {
-	const inputPath = `src/day-three/${source}.txt`;
+	const inputPath = `src/day-03/${source}.txt`;
 	return getContents(inputPath);
 }
 
