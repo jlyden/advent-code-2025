@@ -1,9 +1,7 @@
-import { diff } from "util";
 import { getContents } from "../utils";
 
 let lowerBound = 0;
 let upperBound = 0;
-let suppressLogs = true;
 const invalidIds: number[] = [];
 
 // node dist/day-02/solve-challenge.js sample
@@ -16,37 +14,38 @@ function solveChallenge() {
 		const lowerBoundStrLen = lowerBoundStr.length;
 		const upperBoundStrLen = upperBoundStr.length;
 		if (isOdd(lowerBoundStrLen) && isOdd(upperBoundStrLen)) {
-			console.log(`  both odd early exit`);
+			console.log(`ODD early exit`);
 			return;
 		}
 
-		console.log(ranges);
+		console.log('RANGE', range);
 		lowerBound = Number(lowerBoundStr);
 		upperBound = Number(upperBoundStr);
 
-		// Handle lower bound
-		const lowestPotentialLowerBoundInvalidId = getPotentialInvalidId(lowerBoundStr);
-		console.log(`  potentialInvalidId: ${lowestPotentialLowerBoundInvalidId}`);
-		if (isInRange(lowestPotentialLowerBoundInvalidId)) {
-				console.log(`  hit on: ${lowestPotentialLowerBoundInvalidId}`);
-			invalidIds.push(lowestPotentialLowerBoundInvalidId);
+		const lowestHalf = getFirstHalf(lowerBoundStr);
+		const highestHalf = getFirstHalf(upperBoundStr);
+
+		let countInLoop = 0;
+		let invalidIdCount = 0;
+		for (let half = lowestHalf; half <= highestHalf; half++) {
+			countInLoop++;
+			const stringHalf = half.toString();
+			const possibleInvalidId = Number(stringHalf + stringHalf);
+			if (isInRange(possibleInvalidId)) {
+				invalidIds.push(possibleInvalidId);
+				invalidIdCount++;
+			}
 		}
 
-		handlePotentialInvalidId(upperBoundStr);
-
-		// when both are even and there's a big diff in first halves, room for many more invalid ids
-		// TODO: figure it out
-		// look at (4952, 6512)
-		// not 4949, but 5050, 5151, 5252, 5353, 5454, ... 6464
+		console.log(`  range loop count: ${countInLoop}`);
+		console.log(`  invalidId count: ${invalidIdCount}`);
 	});
 
-	const uniqueInvalidIds = [...new Set(invalidIds)];
+	console.log('invalidIdsLength', invalidIds.length)
 
-	console.log(uniqueInvalidIds);
+	const sumOfInvalidIds = invalidIds.reduce((acc, curr) => acc + curr, 0);
 
-	const sumOfInvalidIds = uniqueInvalidIds.reduce((acc, curr) => acc + curr, 0);
-
-	// 1976006979 is too low
+	// 5287329700 is too low
 	console.log(`Solution is: ${sumOfInvalidIds}`);
 }
 
@@ -72,35 +71,19 @@ function getBoundaries(range: string): string[] {
 }
 
 /**
- * Run through check for potential invalid id
+ * Return potential invalid id
  */
-function handlePotentialInvalidId(value: string): void {
-	const potentialInvalidId = getPotentialInvalidId(value);
-	if (!suppressLogs) {
-		console.log(`  potentialInvalidId: ${potentialInvalidId}`);
-	}
-	if (isInRange(potentialInvalidId)) {
-		if (!suppressLogs) {
-			console.log(`  hit on: ${potentialInvalidId}`);
-		}
-		invalidIds.push(potentialInvalidId);
-	}
+function getPotentialInvalidId(candidate: string): number {
+	const firstHalf = getFirstHalf(candidate);
+	return Number(firstHalf + firstHalf);
 }
 
 /**
- * Return potential invalid id from boundary
+ * Return first half of a numeric string, cast to number
  */
-function getPotentialInvalidId(boundary: string): number {
-	const firstHalfOfBoundary = getFirstHalfOfBoundary(boundary);
-	return Number(firstHalfOfBoundary + firstHalfOfBoundary);
-}
-
-/**
- * Return first half of a numeric string with even length
- */
-function getFirstHalfOfBoundary(boundary: string): string {
-	let halfLength = boundary.length / 2;
-	return boundary.slice(0, halfLength);
+function getFirstHalf(candidate: string): number {
+	let halfLength = candidate.length / 2;
+	return Number(candidate.slice(0, halfLength));
 }
 
 /**
