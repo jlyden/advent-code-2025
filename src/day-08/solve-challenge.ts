@@ -1,6 +1,6 @@
 import { getContents } from "../utils";
 
-// node dist/day-08/solve-challenge.js sample
+// node dist/day-08/solve-challenge.js <sample|input>
 function solveChallenge() {
 	const input = getInput(process.argv[2]);
 

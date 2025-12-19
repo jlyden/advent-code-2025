@@ -29,13 +29,13 @@ node dist/day-one/solve-challenge.js <sample|input> <2>
 [x] Day Three, Part One
 [ ] Day Three, Part Two
 
-[ ] Day Four, Part One
+[x] Day Four, Part One
 [ ] Day Four, Part Two
 
 [ ] Day Five, Part One
 [ ] Day Five, Part Two
 
-[ ] Day Six, Part One
+[x] Day Six, Part One
 [ ] Day Six, Part Two
 
 [ ] Day Seven, Part One
