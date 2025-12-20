@@ -1,30 +1,26 @@
 import { getContents } from "../utils";
 
 const ROLL = '@';
+const REMOVED = 'x';
 
 let grid: string[][];
 let xLength: number;
 let yLength: number;
 
-// node dist/day-04/solve-challenge.js sample
+// node dist/day-04/solve-challenge.js <sample|input> <2>
 function solveChallenge() {
 	const input = getInput(process.argv[2]);
+	const partTwo = process.argv[3] === '2';
 	setupGrid(input);
 
-	let canBeAccessed = 0;
-	for (let x = 0; x < xLength; x++) {
-		for (let y = 0; y < yLength; y++) {
-			if (!spotIsARoll(x, y)) {
-				continue;
-			}
-			
-			if (canAccess(x, y)) {
-				canBeAccessed += 1;
-			}
-		}
-	}
+	let canBeRemoved = 0;
+	let justRemoved = 0;
+	do {
+		justRemoved = runTheGrid(partTwo);
+		canBeRemoved += justRemoved;
+	} while (justRemoved > 0);
 
-	console.log(`Solution is: ${canBeAccessed}`);
+	console.log(`Solution is: ${canBeRemoved}`);
 }
 
 function getInput(source: string): string[] {
@@ -45,11 +41,34 @@ function setupGrid(lines: string[]): void {
 	yLength = grid.length;
 }
 
+function runTheGrid(isPartTwo: boolean) {
+	let canBeRemoved = 0;
+	for (let x = 0; x < xLength; x++) {
+		for (let y = 0; y < yLength; y++) {
+			if (!spotIsARoll(x, y)) {
+				continue;
+			}
+			
+			if (canRemove(x, y)) {
+				canBeRemoved += 1;
+				if (isPartTwo) {
+					removeRoll(x,y);
+				}
+			}
+		}
+	}
+	return canBeRemoved;
+}
+
 function spotIsARoll(x: number, y: number): boolean {
 	return grid[y][x] === ROLL;
 }
 
-function canAccess(spotX: number, spotY: number) {
+function removeRoll(x: number, y: number): void {
+	grid[y][x] = REMOVED;
+}
+
+function canRemove(spotX: number, spotY: number) {
 	let rolls = -1; // Leave out the spot itself!
 
 	for (let x = spotX - 1; x <= spotX + 1; x++) {
