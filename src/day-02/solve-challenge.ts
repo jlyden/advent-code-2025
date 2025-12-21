@@ -1,10 +1,10 @@
-import { getContents } from "../utils";
+import { getContents, sumNumericArray } from "../utils";
 
 let lowerBound = 0;
 let upperBound = 0;
 const invalidIds: number[] = [];
 
-// node dist/day-02/solve-challenge.js sample
+// node dist/day-02/solve-challenge.js <sample|input>
 function solveChallenge() {
 	const ranges = getInput(process.argv[2]);
 
@@ -14,38 +14,25 @@ function solveChallenge() {
 		const lowerBoundStrLen = lowerBoundStr.length;
 		const upperBoundStrLen = upperBoundStr.length;
 		if (isOdd(lowerBoundStrLen) && isOdd(upperBoundStrLen)) {
-			console.log(`ODD early exit`);
 			return;
 		}
 
-		console.log('RANGE', range);
 		lowerBound = Number(lowerBoundStr);
 		upperBound = Number(upperBoundStr);
 
-		const lowestHalf = getFirstHalf(lowerBoundStr);
-		const highestHalf = getFirstHalf(upperBoundStr);
+		const [lowestHalf, highestHalf] = getFirstHalves(lowerBoundStr, upperBoundStr);
 
-		let countInLoop = 0;
-		let invalidIdCount = 0;
 		for (let half = lowestHalf; half <= highestHalf; half++) {
-			countInLoop++;
 			const stringHalf = half.toString();
 			const possibleInvalidId = Number(stringHalf + stringHalf);
 			if (isInRange(possibleInvalidId)) {
 				invalidIds.push(possibleInvalidId);
-				invalidIdCount++;
 			}
 		}
-
-		console.log(`  range loop count: ${countInLoop}`);
-		console.log(`  invalidId count: ${invalidIdCount}`);
 	});
 
-	console.log('invalidIdsLength', invalidIds.length)
+	const sumOfInvalidIds = sumNumericArray(invalidIds);
 
-	const sumOfInvalidIds = invalidIds.reduce((acc, curr) => acc + curr, 0);
-
-	// 5287329700 is too low
 	console.log(`Solution is: ${sumOfInvalidIds}`);
 }
 
@@ -71,18 +58,21 @@ function getBoundaries(range: string): string[] {
 }
 
 /**
- * Return potential invalid id
+ * The first half of a numeric string, adjusted for position and length
  */
-function getPotentialInvalidId(candidate: string): number {
-	const firstHalf = getFirstHalf(candidate);
-	return Number(firstHalf + firstHalf);
+function getFirstHalves(lowerBoundStr: string, upperBoundStr: string): number[] {
+	const lowerAdjustment = isOdd(lowerBoundStr.length) ? -1 : 0;
+	const lowestHalf = getFirstHalf(lowerBoundStr, lowerAdjustment);
+	const upperAdjustment = isOdd(upperBoundStr.length) ? +1 : 0;
+	const highestHalf = getFirstHalf(upperBoundStr, upperAdjustment);
+	return [lowestHalf, highestHalf];
 }
 
 /**
  * Return first half of a numeric string, cast to number
  */
-function getFirstHalf(candidate: string): number {
-	let halfLength = candidate.length / 2;
+function getFirstHalf(candidate: string, adjustment: number): number {
+	let halfLength = (candidate.length + adjustment) / 2;
 	return Number(candidate.slice(0, halfLength));
 }
 
