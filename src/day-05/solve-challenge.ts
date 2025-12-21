@@ -78,6 +78,7 @@ function getFreshIngredientRanges(lines: string[]) {
 	return {
 		freshIngredientRanges,
 		blankLineIndex,
+		sortedKeys
 	}
 }
 

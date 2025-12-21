@@ -23,7 +23,7 @@ node dist/day-one/solve-challenge.js <sample|input> <2>
 [x] Day One, Part One
 [x] Day One, Part Two
 
-[ ] Day Two, Part One
+[x] Day Two, Part One
 [ ] Day Two, Part Two
 
 [x] Day Three, Part One
